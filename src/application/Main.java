@@ -1,5 +1,7 @@
 package application;
 
+import java.util.ArrayList;
+
 import javafx.application.Application;
 import javafx.event.EventHandler;
 import javafx.scene.Scene;
@@ -13,18 +15,27 @@ public class Main extends Application {
 	
 	static boolean runLoop = true;
 	static Player player;
+	static ArrayList<WorldObject> objs;
 	static boolean up = false, down = false, left = false, right = false;
 	
 	@Override
 	public void start(Stage primaryStage) {
 	
 		try {
+			objs = new ArrayList<WorldObject>();
 			Pane root = new Pane();
 			player = new Player(true,root);
-			root.getChildren().add(player.c);
+			objs.add(new WorldObject(40, 200, 30));
+			objs.add(new WorldObject(300, 300, 20));
+					
 
 			//player.c
 			Scene scene = new Scene(root,400,400);
+			root.getChildren().add(player.hitBox);
+			for (WorldObject i : objs) {
+				root.getChildren().add(i.hitBox);
+			}
+
 			
 			scene.setOnKeyPressed(new EventHandler<KeyEvent>() {
 				@Override
@@ -73,17 +84,23 @@ public class Main extends Application {
 		final double SPEED = 3;
 		double dx = 0.0, dy = 0.0;
 		
-		if (up)
+		if (up) {
 			--dy;
+			
+			}
 		if (down)
 			++dy;
 		if (left)
 			--dx;
 		if (right)
 			++dx;
+	if (objs != null && objs.size() > 0) {
+		for (WorldObject obj : objs) {
+			System.out.println("HHH");
+			obj.move(dx * SPEED, dy * SPEED);
 		
-		if (player != null)
-			player.move(dx * SPEED, dy * SPEED);
+		}
+	}
 	}
 	
 	public static void main(String[] args) throws InterruptedException {
