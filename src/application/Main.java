@@ -94,13 +94,24 @@ public class Main extends Application {
 			--dx;
 		if (right)
 			++dx;
-	if (objs != null && objs.size() > 0) {
-		for (WorldObject obj : objs) {
-			System.out.println("HHH");
-			obj.move(dx * SPEED, dy * SPEED);
 		
+		boolean tooClose = false;
+		if (objs != null && objs.size() > 0) {
+			for (WorldObject obj : objs) {
+				if (obj.checkCol(dx * SPEED, dy * SPEED, player)) {
+					tooClose = true;
+					System.out.println("too close");
+					break;
+				}
+			}
 		}
-	}
+		
+		if (objs != null && objs.size() > 0 && !tooClose
+				) {
+			for (WorldObject obj : objs) {
+				obj.move(dx * SPEED, dy * SPEED);
+			}
+		}
 	}
 	
 	public static void main(String[] args) throws InterruptedException {

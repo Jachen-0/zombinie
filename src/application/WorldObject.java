@@ -17,10 +17,11 @@ public class WorldObject extends Circle {
 		hitBox.setCenterY(worldYPos);
 		hitBox.setRadius(radius);
 	}
+	public boolean checkCol(double x, double y, Player p) {
+			return (Math.sqrt(Math.pow(hitBox.getCenterX() - x - p.hitBox.getCenterX(), 2) + Math.pow(hitBox.getCenterY() - y - p.hitBox.getCenterY(), 2))) <= (hitBox.getRadius() + p.hitBox.getRadius());
+	}
 	public void move(double x, double y) {
 		hitBox.setCenterX(hitBox.getCenterX() - x);
 		hitBox.setCenterY(hitBox.getCenterY() - y);
-		System.out.println("Moved");
-		
 	}
 }
