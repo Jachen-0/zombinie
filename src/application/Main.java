@@ -7,13 +7,17 @@ import javafx.event.EventHandler;
 import javafx.scene.Scene;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 public class Main extends Application {
 	
 	public static long SCHLEEP_TIME = 1000L / 60L;
-	
+	static double mouseX;
+	static double mouseY;
 	static boolean runLoop = true;
+	static boolean setup = false;
+	
 	static Player player;
 	static ArrayList<WorldObject> objs;
 	static boolean up = false, down = false, left = false, right = false;
@@ -35,7 +39,10 @@ public class Main extends Application {
 			for (WorldObject i : objs) {
 				root.getChildren().add(i.hitBox);
 			}
-
+			root.addEventFilter(MouseEvent.MOUSE_MOVED, e -> {
+				mouseX = e.getSceneX();
+				mouseY = e.getSceneY();
+			});
 			
 			scene.setOnKeyPressed(new EventHandler<KeyEvent>() {
 				@Override
@@ -77,10 +84,10 @@ public class Main extends Application {
 		} catch(Exception e) {
 			e.printStackTrace();
 		}
+		setup = true;	
 	}
 	
 	public static void update() {
-		
 		final double SPEED = 3;
 		double dx = 0.0, dy = 0.0;
 		
@@ -94,7 +101,6 @@ public class Main extends Application {
 			--dx;
 		if (right)
 			++dx;
-		
 		boolean tooClose = false;
 		if (objs != null && objs.size() > 0) {
 			for (WorldObject obj : objs) {
@@ -112,13 +118,17 @@ public class Main extends Application {
 				obj.move(dx * SPEED, dy * SPEED);
 			}
 		}
+		if (player != null)
+		player.rotate(mouseX, mouseY);
 	}
 	
 	public static void main(String[] args) throws InterruptedException {
 
 		new Thread(() -> {
 			while (runLoop) {
-				update();
+				if(setup) {
+					update();	
+				}
 				
 				try {
 					Thread.sleep(SCHLEEP_TIME);

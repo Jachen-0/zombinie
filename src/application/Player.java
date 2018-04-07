@@ -21,4 +21,11 @@ public class Player{
 		hitBox.setStroke(Color.BLACK);
 		hitBox.setFill(Color.WHITE);
 		}
+	
+	
+	public void rotate(double x, double y) {
+		double angle = 	 Math.atan2(hitBox.getCenterY(), hitBox.getCenterX()) -Math.atan2(y , x);
+		
+		System.out.println(angle);
+	}
 }
