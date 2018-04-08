@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import javafx.application.Application;
 import javafx.event.EventHandler;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
@@ -26,18 +27,24 @@ public class Main extends Application {
 	public void start(Stage primaryStage) {
 	
 		try {
-			objs = new ArrayList<WorldObject>();
+			Image im = new Image("Test.png");
 			Pane root = new Pane();
+
+			Scene scene = new Scene(root,400,400);
+			
+			objs = new ArrayList<WorldObject>();
 			player = new Player(true,root);
-			objs.add(new WorldObject(40, 200, 30));
-			objs.add(new WorldObject(300, 300, 20));
+			player.image.setImage(im);
+			objs.add(new CircleCollider(40, 200, 30));
+			objs.add(new CircleCollider(300, 300, 20));
 					
 
 			//player.c
-			Scene scene = new Scene(root,400,400);
 			root.getChildren().add(player.hitBox);
+			root.getChildren().add(player.image);
+
 			for (WorldObject i : objs) {
-				root.getChildren().add(i.hitBox);
+				root.getChildren().add(i.hB);
 			}
 			root.addEventFilter(MouseEvent.MOUSE_MOVED, e -> {
 				mouseX = e.getSceneX();
@@ -91,10 +98,8 @@ public class Main extends Application {
 		final double SPEED = 3;
 		double dx = 0.0, dy = 0.0;
 		
-		if (up) {
+		if (up) 
 			--dy;
-			
-			}
 		if (down)
 			++dy;
 		if (left)
