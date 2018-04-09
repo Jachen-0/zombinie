@@ -37,13 +37,14 @@ public class Main extends Application {
 			player.image.setImage(im);
 			objs.add(new CircleCollider(40, 200, 30));
 			objs.add(new CircleCollider(300, 300, 20));
-					
+			objs.add(new Node(400, 250, 40));
 
 			//player.c
 			root.getChildren().add(player.hitBox);
 			root.getChildren().add(player.image);
 
 			for (WorldObject i : objs) {
+				if (i.hB != null)
 				root.getChildren().add(i.hB);
 			}
 			root.addEventFilter(MouseEvent.MOUSE_MOVED, e -> {
@@ -109,10 +110,12 @@ public class Main extends Application {
 		boolean tooClose = false;
 		if (objs != null && objs.size() > 0) {
 			for (WorldObject obj : objs) {
+				if (obj.collidable) {
 				if (obj.checkCol(dx * SPEED, dy * SPEED, player)) {
 					tooClose = true;
 					System.out.println("too close");
 					break;
+				}
 				}
 			}
 		}

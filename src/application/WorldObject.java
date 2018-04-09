@@ -23,9 +23,12 @@ public abstract class WorldObject{
 		//WHY JAVA, WhY???
 	}
 	Shape hB;
-	
-	public WorldObject(Shape hitbox, OrderedPair pos, OrderedPair scale) {
+	public boolean collidable;
+	public WorldObject(Shape hitbox, OrderedPair pos, OrderedPair scale, boolean collides) {
+		
 		hB = hitbox;
+		collidable = collides;
+		
 		if (hB instanceof Circle) {
 			((Circle) hB).setCenterX(pos.x);
 			((Circle) hB).setCenterY(pos.y);
@@ -37,19 +40,19 @@ public abstract class WorldObject{
 			((Rectangle)hB).setScaleY(scale.y);
 		}
 	}
+	
 
-public void move(double x, double y) {
-	if (hB instanceof Circle) {
-		((Circle) hB).setCenterX(((Circle) hB).getCenterX() - x);
-		((Circle) hB).setCenterY(((Circle) hB).getCenterY() - y);
-	}else if (hB instanceof Rectangle) {
-		((Rectangle)hB).setX(x);
-		((Rectangle)hB).setY(y);
+	public void move(double x, double y) {
+		if (hB instanceof Circle) {
+			((Circle) hB).setCenterX(((Circle) hB).getCenterX() - x);
+			((Circle) hB).setCenterY(((Circle) hB).getCenterY() - y);
+		}else if (hB instanceof Rectangle) {
+			((Rectangle)hB).setX(x);
+			((Rectangle)hB).setY(y);
+		}
 	}
-}
 
 public boolean checkCol(double x, double y, Player p) {
-
 	return (Math.sqrt(Math.pow(((Circle)hB).getCenterX() - x - p.hitBox.getCenterX(), 2) + Math.pow(((Circle)hB).getCenterY() - y - p.hitBox.getCenterY(), 2))) <= (((Circle)hB).getRadius() + p.hitBox.getRadius());
 }
 
