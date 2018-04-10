@@ -24,8 +24,9 @@ public abstract class WorldObject{
 	}
 	Shape hB;
 	public boolean collidable;
+	OrderedPair pos;
 	public WorldObject(Shape hitbox, OrderedPair pos, OrderedPair scale, boolean collides) {
-		
+		this.pos = pos;
 		hB = hitbox;
 		collidable = collides;
 		
@@ -44,7 +45,9 @@ public abstract class WorldObject{
 
 	public void move(double x, double y) {
 		if (hB instanceof Circle) {
+			pos.x = ((Circle) hB).getCenterX() - x;
 			((Circle) hB).setCenterX(((Circle) hB).getCenterX() - x);
+			pos.y = ((Circle) hB).getCenterY() - y;
 			((Circle) hB).setCenterY(((Circle) hB).getCenterY() - y);
 		}else if (hB instanceof Rectangle) {
 			((Rectangle)hB).setX(x);
@@ -52,8 +55,11 @@ public abstract class WorldObject{
 		}
 	}
 
-public boolean checkCol(double x, double y, Player p) {
-	return (Math.sqrt(Math.pow(((Circle)hB).getCenterX() - x - p.hitBox.getCenterX(), 2) + Math.pow(((Circle)hB).getCenterY() - y - p.hitBox.getCenterY(), 2))) <= (((Circle)hB).getRadius() + p.hitBox.getRadius());
+public boolean checkCol(double x, double y, OrderedPair objPos, double radius) {
+	if (hB instanceof Circle) {
+	return (Math.sqrt(Math.pow(pos.x - x - objPos.x, 2) + Math.pow(pos.y - y - objPos.y, 2))) <= (((Circle)hB).getRadius() + radius);
+ }
+	return false;
 }
 
 }
