@@ -105,7 +105,7 @@ public class Main extends Application {
 		setup = true;	
 	}
 	void click() {
-		System.out.println("Hit = " +player.shootHit(player.lastAngle, objs));
+		System.out.println("Hit = " +player.shootHit(player.getLastAngle(), objs));
 	}
 	public static void update() {
 		final double SPEED = 3;

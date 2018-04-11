@@ -11,10 +11,10 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 
 public class Player {
-	boolean controllable;
-	int health;
+	private boolean controllable;
+	private int health;
 	ImageView image = new ImageView();
-	double lastAngle = 0;
+	private double lastAngle = 0;
 	public Circle hitBox;
 
 	public Player() {
@@ -31,7 +31,17 @@ public class Player {
 		image.setY(180);
 
 	}
+	public boolean getControllable() {
+		return controllable;
+	}
+	public int getHealth() {
+		return health;
+	}
+	public double getLastAngle() {
+		return lastAngle;
+	}
 
+	
 	public void rotate(double x, double y) {
 		double angle = Math.atan2(y - hitBox.getCenterY(), x - hitBox.getCenterX());
 		image.setRotate(Math.toDegrees(angle));

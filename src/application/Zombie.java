@@ -18,4 +18,5 @@ public class Zombie extends WorldObject{
 		hitBox.setStroke(Color.GREEN);
 		hitBox.setFill(Color.RED);
 	}
+	
 }
