@@ -32,17 +32,18 @@ public class Main extends Application {
 			Image im = new Image("Test.png");
 			Pane root = new Pane();
 
-			Scene scene = new Scene(root,400,400);
+			Scene scene = new Scene(root,1200,900);
 			
 			objs = new ArrayList<WorldObject>();
 			player = new Player();
 			player.image.setImage(im);
-			objs.add(new CircleCollider(40, 200, 30));
 			objs.add(new CircleCollider(300, 300, 20));
 			objs.add(new Node(400, 250, 40));
 			objs.add(new RecCollider(5,5,5, 400));
+			objs.add(new CircleCollider(7.5, 42.5, 40));
 			objs.add(new RecCollider(5,5,400, 5));
 			objs.add(new RecCollider(400,5,5,400));
+			objs.add(new CircleCollider(402.5, 205, 30));
 			objs.add(new RecCollider(5,400,400,5));
 			objs.add(new Zombie(300,150,35));
 			//player.c

@@ -24,6 +24,7 @@ public abstract class WorldObject{
 	}
 	Shape hB;
 	public boolean collidable;
+	public boolean isVerticle;
 	OrderedPair pos;
 	public WorldObject(Shape hitbox, OrderedPair pos, OrderedPair scale, boolean collides) {
 		this.pos = pos;
@@ -39,6 +40,13 @@ public abstract class WorldObject{
 			((Rectangle)hB).setY(pos.y);
 			((Rectangle)hB).setWidth(scale.x);
 			((Rectangle)hB).setHeight(scale.y);
+			
+			if (((Rectangle)hB).getWidth()>((Rectangle)hB).getHeight()) {
+				isVerticle = false; 
+			}else {
+				isVerticle = true;
+				System.out.println("Rectangle at x = " + (((Rectangle)hB).getX() + ((Rectangle)hB).getWidth()/2) + ", y = " + (((Rectangle)hB).getY() + ((Rectangle)hB).getHeight()/2));
+			}
 		}
 	}
 	
@@ -60,7 +68,11 @@ public boolean checkCol(double x, double y, OrderedPair objPos, double radius) {
 	if (hB instanceof Circle) {
 	return (Math.sqrt(Math.pow(pos.x - x - objPos.x, 2) + Math.pow(pos.y - y - objPos.y, 2))) <= (((Circle)hB).getRadius() + radius);
  } else if (hB instanceof Rectangle) {
-	 ///STUFF
+	 if (isVerticle) {
+		 return ((Math.sqrt(Math.pow((((Rectangle)hB).getX() + ((Rectangle)hB).getWidth()/2 ) - x - objPos.x, 2))) <= (((Rectangle)hB).getWidth()/2 + radius))&&(objPos.y < ((Rectangle)hB).getY() + ((Rectangle)hB).getHeight() && objPos.y > ((Rectangle)hB).getY());
+	 }else {
+		 return ((Math.sqrt(Math.pow((((Rectangle)hB).getY() + ((Rectangle)hB).getHeight()/2 ) - y - objPos.y, 2))) <= (((Rectangle)hB).getHeight()/2 + radius))&&(objPos.x < ((Rectangle)hB).getX() + ((Rectangle)hB).getWidth() && objPos.x > ((Rectangle)hB).getX());
+	 }
  }
 	return false;
 }

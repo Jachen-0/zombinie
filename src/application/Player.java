@@ -20,15 +20,15 @@ public class Player {
 	public Player() {
 		this.health = 100;
 		hitBox = new Circle();
-		hitBox.setCenterX(200);
-		hitBox.setCenterY(200);
+		hitBox.setCenterX(600);
+		hitBox.setCenterY(450);
 		hitBox.setRadius(20);
 		hitBox.setStroke(Color.BLACK);
 		hitBox.setFill(Color.WHITE);
 		image.setFitHeight(40);
 		image.setFitWidth(40);
-		image.setX(180);
-		image.setY(180);
+		image.setX(580);
+		image.setY(430);
 
 	}
 	public boolean getControllable() {
