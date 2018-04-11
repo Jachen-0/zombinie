@@ -40,7 +40,11 @@ public class Main extends Application {
 			objs.add(new CircleCollider(40, 200, 30));
 			objs.add(new CircleCollider(300, 300, 20));
 			objs.add(new Node(400, 250, 40));
-
+			objs.add(new RecCollider(5,5,5, 400));
+			objs.add(new RecCollider(5,5,400, 5));
+			objs.add(new RecCollider(400,5,5,400));
+			objs.add(new RecCollider(5,400,400,5));
+			objs.add(new Zombie(300,150,35));
 			//player.c
 			root.getChildren().add(player.hitBox);
 			root.getChildren().add(player.image);

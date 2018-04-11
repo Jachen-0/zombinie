@@ -37,8 +37,8 @@ public abstract class WorldObject{
 		}else if (hB instanceof Rectangle) {
 			((Rectangle)hB).setX(pos.x);
 			((Rectangle)hB).setY(pos.y);
-			((Rectangle)hB).setScaleX(scale.x);
-			((Rectangle)hB).setScaleY(scale.y);
+			((Rectangle)hB).setWidth(scale.x);
+			((Rectangle)hB).setHeight(scale.y);
 		}
 	}
 	
@@ -50,14 +50,17 @@ public abstract class WorldObject{
 			pos.y = ((Circle) hB).getCenterY() - y;
 			((Circle) hB).setCenterY(((Circle) hB).getCenterY() - y);
 		}else if (hB instanceof Rectangle) {
-			((Rectangle)hB).setX(x);
-			((Rectangle)hB).setY(y);
+			((Rectangle)hB).setX(((Rectangle)hB).getX() - x);
+			((Rectangle)hB).setY(((Rectangle)hB).getY() - y);		
 		}
+
 	}
 
 public boolean checkCol(double x, double y, OrderedPair objPos, double radius) {
 	if (hB instanceof Circle) {
 	return (Math.sqrt(Math.pow(pos.x - x - objPos.x, 2) + Math.pow(pos.y - y - objPos.y, 2))) <= (((Circle)hB).getRadius() + radius);
+ } else if (hB instanceof Rectangle) {
+	 ///STUFF
  }
 	return false;
 }
