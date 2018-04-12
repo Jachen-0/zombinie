@@ -12,6 +12,7 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
+import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 public class Main extends Application {
 	
@@ -30,15 +31,19 @@ public class Main extends Application {
 	
 		try {
 			Image im = new Image("Test.png");
-			
+			Node nodeOne = new Node(new OrderedPair(600, 350), 1);
+			Node nodeTwo = new Node(new OrderedPair(800, 350), 1);
 			Pane root = new Pane();
-			Scene scene = new Scene(root,1200,900);
-			
+			Scene scene = new Scene(root,1200,900, Color.BEIGE);
+			Node[] nodes = new Node[2];
+			nodes[0] = nodeOne;
+			nodes[1] = nodeTwo;
 			objs = new ArrayList<WorldObject>();
 			player = new Player();
 			player.image.setImage(im);
 			objs.add(new CircleCollider(300, 300, 20));
-			objs.add(new Node(400, 250, 40));
+			objs.add(nodeOne);
+			
 			objs.add(new RecCollider(5,5,5, 400));
 			objs.add(new CircleCollider(7.5, 42.5, 40));
 			objs.add(new RecCollider(5,5,400, 5));
@@ -76,9 +81,8 @@ public class Main extends Application {
 			if (e.getButton().equals(MouseButton.PRIMARY)) {
 				WorldObject shotObj = player.shootHit(player.getLastAngle(), objs);
 				if (shotObj instanceof Zombie) {
-					System.out.println("ERROR");
 					objs.remove(shotObj);
-					root.getChildren().remove(shotObj);
+					root.getChildren().remove(shotObj.hB);
 					shotObj = null;
 				}
 			}
@@ -141,6 +145,8 @@ public class Main extends Application {
 		if (objs != null && objs.size() > 0 && !tooClose
 				) {
 			for (WorldObject obj : objs) {
+				if (obj instanceof Node)
+					System.out.println("Node at x = " + obj.pos.x + ", y = " + obj.pos.y);
 				obj.move(dx * SPEED, dy * SPEED);
 			}
 		}
@@ -165,6 +171,7 @@ public class Main extends Application {
 			}
 		}).start();	
 		launch(args);
+		
 	
 	}
 }

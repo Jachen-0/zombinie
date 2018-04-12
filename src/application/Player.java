@@ -49,7 +49,7 @@ public class Player {
 	}
 
 	public WorldObject shootHit(double angle, ArrayList<WorldObject> objs) {
-		double margin = 4;
+		double margin = 20;
 		double trueAngle = (angle + 180) % 360;
 		System.out.println("Player x = " + hitBox.getCenterX() + " y = " + hitBox.getCenterY());
 		double dx = Math.cos(Math.toRadians(trueAngle));
