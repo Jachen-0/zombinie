@@ -30,8 +30,8 @@ public class Main extends Application {
 	
 		try {
 			Image im = new Image("Test.png");
+			
 			Pane root = new Pane();
-
 			Scene scene = new Scene(root,1200,900);
 			
 			objs = new ArrayList<WorldObject>();
@@ -45,7 +45,7 @@ public class Main extends Application {
 			objs.add(new RecCollider(400,5,5,400));
 			objs.add(new CircleCollider(402.5, 205, 30));
 			objs.add(new RecCollider(5,400,400,5));
-			objs.add(new Zombie(300,150,35));
+			objs.add(new Zombie(600,150,35));
 			//player.c
 			root.getChildren().add(player.hitBox);
 			root.getChildren().add(player.image);
@@ -74,9 +74,16 @@ public class Main extends Application {
 			});
 			scene.addEventHandler(MouseEvent.MOUSE_CLICKED, (MouseEvent e) ->{
 			if (e.getButton().equals(MouseButton.PRIMARY)) {
-				click();
+				WorldObject shotObj = player.shootHit(player.getLastAngle(), objs);
+				if (shotObj instanceof Zombie) {
+					System.out.println("ERROR");
+					objs.remove(shotObj);
+					root.getChildren().remove(shotObj);
+					shotObj = null;
+				}
 			}
 			});
+			
 			scene.setOnKeyReleased(new EventHandler<KeyEvent>() {
 				@Override
 				public void handle(KeyEvent event) {
@@ -105,9 +112,7 @@ public class Main extends Application {
 		}
 		setup = true;	
 	}
-	void click() {
-		System.out.println("Hit = " +player.shootHit(player.getLastAngle(), objs));
-	}
+	
 	public static void update() {
 		final double SPEED = 3;
 		double dx = 0.0, dy = 0.0;

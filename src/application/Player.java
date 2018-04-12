@@ -48,7 +48,7 @@ public class Player {
 		lastAngle = Math.toDegrees(angle);
 	}
 
-	public boolean shootHit(double angle, ArrayList<WorldObject> objs) {
+	public WorldObject shootHit(double angle, ArrayList<WorldObject> objs) {
 		double margin = 4;
 		double trueAngle = (angle + 180) % 360;
 		System.out.println("Player x = " + hitBox.getCenterX() + " y = " + hitBox.getCenterY());
@@ -57,14 +57,15 @@ public class Player {
 		System.out.println("angle = " + trueAngle);
 		for (int i = 1; i < 50; i++) {
 			OrderedPair raySegment = new OrderedPair(hitBox.getCenterX() - dx * i * margin, hitBox.getCenterY() - dy * i * margin);
-			System.out.println("Shot " + i + " at x = " + raySegment.x + ", y = " + raySegment.y);
+			
 			for (WorldObject o : objs) {
 
 				if (o.checkCol(0, 0, raySegment, 0)) {
-					return true;
+					System.out.println("Shot a " + o.toString());
+					return o;
 				}
 			}
 		}
-		return false;
+		return null;
 	}
 }
