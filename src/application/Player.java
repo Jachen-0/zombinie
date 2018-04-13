@@ -14,20 +14,34 @@ public class Player extends WorldObject{
 	private boolean controllable;
 	private int health;
 	private double lastAngle = 0;
-
+	private int frame = 1;
+	private Image[] im = {new Image("newplayer3.png"), new Image("newplayer1.png"), new Image("newplayer2.png")};
 	public Player() {
 		super(new Circle(), new OrderedPair(600,450), new OrderedPair(20,20), false);
 
 		hB.setStroke(null);
 		hB.setFill(null);
-		Image im = new Image("Test.png");
-		image.setImage(im);
+		
+		image.setImage(im[0]);
 		image.setFitHeight(40);
 		image.setFitWidth(40);
 		image.setX(580);
 		image.setY(430);
 
 	}
+	public void flickerAnimation() {
+		image.setImage(im[frame]);
+		if (frame == 1) {
+			frame++;
+		}else {
+			frame--;
+		}
+		
+	}
+	public void base() {
+		image.setImage(im[0]);	
+	}
+	
 	public boolean getControllable() {
 		return controllable;
 	}
@@ -41,7 +55,7 @@ public class Player extends WorldObject{
 	
 	public void rotate(double x, double y) {
 		double angle = Math.atan2(y - pos.y, x - pos.x);
-		image.setRotate(Math.toDegrees(angle));
+		image.setRotate(Math.toDegrees(angle) + 90);
 		lastAngle = Math.toDegrees(angle);
 	}
 

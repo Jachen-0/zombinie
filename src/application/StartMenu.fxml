@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane prefHeight="263.0" prefWidth="269.0" xmlns="http://javafx.com/javafx/9.0.4" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.Control">
+   <children>
+      <Pane prefHeight="271.0" prefWidth="269.0">
+         <children>
+            <Button fx:id="startGame" layoutX="91.0" layoutY="136.0" mnemonicParsing="false" text="Start Game" />
+            <Label layoutX="76.0" layoutY="88.0" text="Zombinies" textFill="#ff2713">
+               <font>
+                  <Font size="24.0" />
+               </font>
+            </Label>
+         </children>
+      </Pane>
+   </children>
+</AnchorPane>

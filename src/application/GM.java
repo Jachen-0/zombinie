@@ -53,7 +53,9 @@ public class GM {
 		round++;
 		SetZombieLimit();
 	}
-	
+	public void RaiseScore(int added) {
+		score += added;
+	}
 	public int GetScore() {
 		return score;
 	}

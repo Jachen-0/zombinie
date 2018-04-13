@@ -1,3 +1,4 @@
+
 package application;
 
 import java.io.File;
@@ -8,6 +9,7 @@ import java.util.Scanner;
 import application.WorldObject.OrderedPair;
 import javafx.application.Application;
 import javafx.event.EventHandler;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.input.KeyCode;
@@ -32,10 +34,17 @@ public class Main extends Application {
 	static boolean up = false, down = false, left = false, right = false;
 	static GM gm = new GM();
 	static Pane root = new Pane();
+	
+	public static Stage primaryStage = new Stage();
 
 	@Override
-	public void start(Stage primaryStage) {
-
+	public void start(Stage primaryStage) throws Exception {
+		final FXMLLoader menu = new FXMLLoader(getClass().getResource("StartMenu.fxml"));
+		Pane pane = menu.load();
+		Scene scene = new Scene(pane);
+		this.primaryStage.setScene(scene);
+		this.primaryStage.show();
+		/*
 		try {
 			
 			Node nodeOne = new Node(new OrderedPair(600, 350), 0);
@@ -164,6 +173,8 @@ public class Main extends Application {
 			e.printStackTrace();
 		}
 		setup = true;
+		
+		*/
 	}
 
 	public static void update() {
@@ -207,6 +218,7 @@ public class Main extends Application {
 
 	public static void main(String[] args) throws InterruptedException {
 
+		/*
 		new Thread(() -> {
 			while (runLoop) {
 				if (setup) {
@@ -220,6 +232,7 @@ public class Main extends Application {
 				}
 			}
 		}).start();
+		*/
 		launch(args);
 
 	}

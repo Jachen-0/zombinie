@@ -4,19 +4,50 @@ import javafx.scene.shape.Circle;
 import javafx.scene.shape.Shape;
 import application.WorldObject.OrderedPair;
 import javafx.event.EventHandler;
+import javafx.scene.image.Image;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 	
 public class Zombie extends WorldObject{
-	GM gameInfo;
-	int health;
-	boolean directChase = false;
-	public Zombie(double worldXPos, double worldYPos, double radius, GM gm) {
+	private GM gameInfo;
+	public int health;
+	private boolean directChase = false;
+	private double rand;
+	private double speed;
+	private Image[] im = {new Image("zombiebase.png"), new Image("zombie1.png"), new Image("zombie2.png")};
+	private int frame = 1;
+	public Zombie(double worldXPos, double worldYPos, double radius, GM gm, double offset) {
 		super(new Circle(), new OrderedPair(worldXPos, worldYPos), new OrderedPair(radius, radius), true);
-		((Circle)hB).setStroke(Color.GREEN);
-		((Circle)hB).setFill(Color.RED);
 		health = 5;
 		gameInfo = gm;
+		rand = offset;
+		speed = GetSpeed();
+		
+
+		hB.setStroke(null);
+		hB.setFill(null);
+		
+		image.setImage(im[1]);
+		image.setFitHeight(radius*2);
+		image.setFitWidth(radius*2);
+		image.setX(pos.x - image.getFitWidth()/2);
+		image.setY(pos.y - image.getFitHeight()/2);
+		
+	}
+	public void flickerAnimation() {
+		image.setImage(im[frame]);
+		if (frame == 1) {
+			frame++;
+		}else {
+			frame--;
+		}
+		
+	}
+	public void hurt() {
+		image.setImage(im[0]);
+	}
+	double GetSpeed() {
+		return (1 + 0.5* gameInfo.GetRound());
 	}
 	@Override
 	public void move(double x, double y) {
@@ -24,6 +55,8 @@ public class Zombie extends WorldObject{
 		super.pos.y -= y;
 		((Circle) hB).setCenterX(super.pos.x);
 		((Circle) hB).setCenterY(super.pos.y);
+		image.setX(pos.x - image.getFitWidth()/2);
+		image.setY(pos.y - image.getFitHeight()/2);
 	}
 	@Override
 	public boolean checkCol(double x, double y, OrderedPair objPos, double radius) {
@@ -43,16 +76,14 @@ public class Zombie extends WorldObject{
 	
 	private void indirectChase(Node destination) {
 		
-		move(clamp(pos.x - destination.pos.x, -1, 1), clamp(pos.y - destination.pos.y, -1, 1));
-		if (checkCol(0,0,destination.pos, 3)) {
-			
-		}
+		move(clamp(pos.x - destination.pos.x + rand), clamp(pos.y - destination.pos.y + rand));
+		
 	}
 	
 	private void DirectChase () {
-		move(clamp(pos.x - gameInfo.GetPlayer().pos.x, -1, 1), clamp(pos.y - gameInfo.GetPlayer().pos.y, -1, 1));
+		move(clamp(pos.x - gameInfo.GetPlayer().pos.x), clamp(pos.y - gameInfo.GetPlayer().pos.y));
 	}
-	double clamp(double value, double min, double max) {
-		   return Math.min(Math.max(value, min), max);
+	double clamp(double value) {
+		   return Math.min(Math.max(value, -speed), speed);
 		}
 }
