@@ -1,6 +1,7 @@
 package application;
 
 import application.WorldObject.OrderedPair;
+import javafx.scene.image.Image;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Rectangle;
 
@@ -8,6 +9,17 @@ public class CircleCollider extends WorldObject {
 
 	public CircleCollider(double worldXPos, double worldYPos, double radius) {
 		super(new Circle(), new OrderedPair(worldXPos, worldYPos), new OrderedPair(radius, radius), true);
+	
+		
+		hB.setFill(null);
+		hB.setStroke(null);
+		
+		Image im = new Image("black_circle.png");
+		image.setImage(im);
+		image.setFitHeight(radius*2);
+		image.setFitWidth(radius*2);
+		image.setX(pos.x - image.getFitWidth()/2);
+		image.setY(pos.y - image.getFitHeight()/2);
 	}
 
 	@Override
@@ -16,6 +28,8 @@ public class CircleCollider extends WorldObject {
 		super.pos.y -= y;
 		((Circle) hB).setCenterX(super.pos.x);
 		((Circle) hB).setCenterY(super.pos.y);
+		image.setX(pos.x - image.getFitWidth()/2);
+		image.setY(pos.y - image.getFitHeight()/2);
 	}
 	@Override
 	public boolean checkCol(double x, double y, OrderedPair objPos, double radius) {

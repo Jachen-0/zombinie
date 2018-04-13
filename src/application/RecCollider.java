@@ -1,6 +1,7 @@
 package application;
 
 import application.WorldObject.OrderedPair;
+import javafx.scene.image.Image;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Rectangle;
 
@@ -14,7 +15,15 @@ public class RecCollider extends WorldObject {
 			isVerticle = true;
 			System.out.println("Rectangle at x = " + (((Rectangle)hB).getX() + ((Rectangle)hB).getWidth()/2) + ", y = " + (((Rectangle)hB).getY() + ((Rectangle)hB).getHeight()/2));
 		}
-
+		hB.setFill(null);
+		hB.setStroke(null);
+		
+		Image im = new Image("black_stretchable.png");
+		image.setImage(im);
+		image.setFitHeight(((Rectangle)hB).getHeight());
+		image.setFitWidth(((Rectangle)hB).getWidth());
+		image.setX(pos.x);
+		image.setY(pos.y);
 	}
 
 	@Override
@@ -23,6 +32,8 @@ public class RecCollider extends WorldObject {
 		super.pos.y -= y;
 		((Rectangle)hB).setX(super.pos.x);
 		((Rectangle)hB).setY(super.pos.y);
+		image.setX(pos.x);
+		image.setY(pos.y);
 	}
 	@Override
 	public boolean checkCol(double x, double y, OrderedPair objPos, double radius) {
