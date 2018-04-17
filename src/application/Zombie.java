@@ -1,12 +1,8 @@
 package application;
 
 import javafx.scene.shape.Circle;
-import javafx.scene.shape.Shape;
-import application.WorldObject.OrderedPair;
-import javafx.event.EventHandler;
 import javafx.scene.image.Image;
-import javafx.scene.layout.Pane;
-import javafx.scene.paint.Color;
+
 	
 public class Zombie extends WorldObject{
 	private GM gameInfo;
@@ -16,12 +12,13 @@ public class Zombie extends WorldObject{
 	private double speed;
 	private Image[] im = {new Image("zombiebase.png"), new Image("zombie1.png"), new Image("zombie2.png")};
 	private int frame = 1;
+	
 	public Zombie(double worldXPos, double worldYPos, double radius, GM gm, double offset) {
 		super(new Circle(), new OrderedPair(worldXPos, worldYPos), new OrderedPair(radius, radius), true);
-		health = 5;
+		health = 1;
 		gameInfo = gm;
 		rand = offset;
-		speed = GetSpeed();
+		speed = getSpeed();
 		
 
 		hB.setStroke(null);
@@ -32,8 +29,9 @@ public class Zombie extends WorldObject{
 		image.setFitWidth(radius*2);
 		image.setX(pos.x - image.getFitWidth()/2);
 		image.setY(pos.y - image.getFitHeight()/2);
-		
 	}
+	
+	//animation of zombies
 	public void flickerAnimation() {
 		image.setImage(im[frame]);
 		if (frame == 1) {
@@ -46,9 +44,11 @@ public class Zombie extends WorldObject{
 	public void hurt() {
 		image.setImage(im[0]);
 	}
-	double GetSpeed() {
+	
+	double getSpeed() {
 		return (1 + 0.5* gameInfo.GetRound());
 	}
+	
 	@Override
 	public void move(double x, double y) {
 		super.pos.x -= x;
@@ -69,21 +69,20 @@ public class Zombie extends WorldObject{
 		directChase = (closestToPlayer.id == closestToSelf.id);
 		if (directChase) {
 			DirectChase();
-		}else {
+		}
+		else {
 		indirectChase(closestToPlayer);
-	}
+		}
 	}
 	
 	private void indirectChase(Node destination) {
-		
 		move(clamp(pos.x - destination.pos.x + rand), clamp(pos.y - destination.pos.y + rand));
-		
 	}
 	
 	private void DirectChase () {
 		move(clamp(pos.x - gameInfo.GetPlayer().pos.x), clamp(pos.y - gameInfo.GetPlayer().pos.y));
 	}
 	double clamp(double value) {
-		   return Math.min(Math.max(value, -speed), speed);
+		return Math.min(Math.max(value, -speed), speed);
 		}
-}
+	}

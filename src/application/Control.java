@@ -1,5 +1,7 @@
 package application;
 
+import application.WorldObject.OrderedPair;
+
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.net.URL;
@@ -7,12 +9,10 @@ import java.util.ArrayList;
 import java.util.ResourceBundle;
 import java.util.Scanner;
 
-import application.WorldObject.OrderedPair;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -27,22 +27,22 @@ import javafx.scene.shape.Circle;
 
 public class Control implements Initializable {
 
-	public static long SLEEP_TIME = 800L / 60L;
-	public static long ANIM_TIME = 8000L / 60L;
-	static double mouseX;
-	static double mouseY;
-	static boolean runLoop = true;
-	static boolean setup = false;
+	private static long SLEEP_TIME = 800L / 60L;
+	private static long ANIM_TIME = 8000L / 60L;
+	private static double mouseX;
+	private static double mouseY;
+	private static boolean runLoop = true;
+	private static boolean setup = false;
 
-	static Player player;
-	static ArrayList<WorldObject> objs;
-	static boolean up = false, down = false, left = false, right = false;
-	static GM gm = new GM();
-	static boolean gameEnd = false;
-	static int animTimer = 0;
+	private static Player player;
+	private static ArrayList<WorldObject> objs;
+	private static boolean up = false, down = false, left = false, right = false;
+	private static GM gm = new GM();
+	private static boolean gameEnd = false;
+	private static int animTimer = 0;
 
 	@FXML
-	Button startGame;
+	private Button startGame;
 
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
@@ -50,8 +50,10 @@ public class Control implements Initializable {
 
 			@Override
 			public void handle(ActionEvent arg0) {
+				//clears the first scene after clicking button
 				Main.primaryStage.hide();
 				Pane root = new Pane();
+				//hard-coded game
 				try {
 					ArrayList<Spawner> spawners = new ArrayList<Spawner>();
 					Scene scene = new Scene(root, 1200, 900, Color.BEIGE);
@@ -70,6 +72,7 @@ public class Control implements Initializable {
 					labels.getChildren().add(score);
 					root.getChildren().add(labels);
 					
+					//reads from file to add world objects to the map
 					try {
 						Scanner input = new Scanner(new File("Map Importer.txt"));
 						while (input.hasNext()) {
@@ -102,8 +105,9 @@ public class Control implements Initializable {
 					objs.add(new Zombie(800, 150, 35, gm, +(Math.random() * 100 - 50)));
 					// player.c
 					root.getChildren().add(player.image);
+					
+					//adds each world object to the map
 					for (WorldObject i : objs) {
-						
 							if (i instanceof RecCollider) {
 								root.getChildren().add(((RecCollider) i).image);
 							} else if (i instanceof CircleCollider) {
@@ -113,6 +117,7 @@ public class Control implements Initializable {
 							}
 						
 					}
+					//checks if game is over every time the mouse is moved
 					root.setOnMouseMoved(new EventHandler<MouseEvent>() {
 						@Override
 						public void handle(MouseEvent e) {
@@ -137,6 +142,7 @@ public class Control implements Initializable {
 						}
 					});
 
+					//movement around the map
 					scene.setOnKeyPressed(new EventHandler<KeyEvent>() {
 						@Override
 						public void handle(KeyEvent event) {
@@ -150,9 +156,11 @@ public class Control implements Initializable {
 								right = true;
 						}
 					});
+					
 					scene.setOnMouseClicked(new EventHandler<MouseEvent>() {
 						@Override
 						public void handle(MouseEvent e) {
+							//shooting zombies/score tracker
 						if (e.getButton().equals(MouseButton.PRIMARY)) {
 							WorldObject shotObj = player.shootHit(player.getLastAngle(), objs);
 							if (shotObj instanceof Zombie) {
@@ -160,8 +168,8 @@ public class Control implements Initializable {
 								((Zombie) shotObj).hurt();
 								gm.RaiseScore(10);
 								score.setText("Score: " + gm.GetScore());
+								
 								if (((Zombie) shotObj).health == 0) {
-
 									objs.remove(shotObj);
 									root.getChildren().remove(shotObj.image);
 									gm.RaiseScore(50);
@@ -217,7 +225,7 @@ public class Control implements Initializable {
 
 					Main.primaryStage.setScene(scene);
 					Main.primaryStage.show();
-					Main.primaryStage.setTitle("TopDown");
+					Main.primaryStage.setTitle("Zombinies");
 
 					Main.primaryStage.setOnCloseRequest(e -> {
 						runLoop = false;
@@ -264,7 +272,7 @@ public class Control implements Initializable {
 
 	}
 
-	public static void update() {
+	private static void update() {
 		final double SPEED = 3;
 		double dx = 0.0, dy = 0.0;
 
@@ -307,7 +315,7 @@ public class Control implements Initializable {
 
 	}
 
-	public static void runAnims() {
+	private static void runAnims() {
 		animTimer++;
 		if (animTimer >= 2 ) {
 			if(up || down || left || right) {

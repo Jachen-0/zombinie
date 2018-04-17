@@ -1,20 +1,22 @@
 package application;
 
-import application.WorldObject.OrderedPair;
 import javafx.scene.image.Image;
-import javafx.scene.shape.Circle;
 import javafx.scene.shape.Rectangle;
 
 public class RecCollider extends WorldObject {
-		private boolean isVerticle;
+	private boolean isVertical;
+		
 	public RecCollider(double worldXPos, double worldYPos, double width, double length) {
 		super(new Rectangle(), new OrderedPair(worldXPos, worldYPos), new OrderedPair(width, length), true);
+		
 		if (((Rectangle)hB).getWidth()>((Rectangle)hB).getHeight()) {
-			isVerticle = false; 
-		}else {
-			isVerticle = true;
+			isVertical = false; 
+		}
+		else {
+			isVertical = true;
 			System.out.println("Rectangle at x = " + (((Rectangle)hB).getX() + ((Rectangle)hB).getWidth()/2) + ", y = " + (((Rectangle)hB).getY() + ((Rectangle)hB).getHeight()/2));
 		}
+		
 		hB.setFill(null);
 		hB.setStroke(null);
 		
@@ -37,10 +39,10 @@ public class RecCollider extends WorldObject {
 	}
 	@Override
 	public boolean checkCol(double x, double y, OrderedPair objPos, double radius) {
-		
-		 if (isVerticle) {
+		 if (isVertical) {
 			 return ((Math.sqrt(Math.pow((((Rectangle)hB).getX() + ((Rectangle)hB).getWidth()/2 ) - x - objPos.x, 2))) <= (((Rectangle)hB).getWidth()/2 + radius))&&(objPos.y < ((Rectangle)hB).getY() + ((Rectangle)hB).getHeight() && objPos.y > ((Rectangle)hB).getY());
-		 }else {
+		 }
+		 else {
 			 return ((Math.sqrt(Math.pow((((Rectangle)hB).getY() + ((Rectangle)hB).getHeight()/2 ) - y - objPos.y, 2))) <= (((Rectangle)hB).getHeight()/2 + radius))&&(objPos.x < ((Rectangle)hB).getX() + ((Rectangle)hB).getWidth() && objPos.x > ((Rectangle)hB).getX());
 		 }
 	}

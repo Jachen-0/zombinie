@@ -3,11 +3,7 @@ package application;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.shape.Shape;
-import javafx.event.EventHandler;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.KeyCode;
-import javafx.scene.layout.Pane;
-import javafx.scene.paint.Color;
 
 public abstract class WorldObject {
 	public static class OrderedPair {
@@ -51,7 +47,6 @@ public abstract class WorldObject {
 	}
 
 	public boolean checkCol(double x, double y, OrderedPair pos, double radius) {
-		// TODO Auto-generated method stub
 		return false;
 	}
 

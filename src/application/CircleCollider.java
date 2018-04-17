@@ -1,19 +1,19 @@
 package application;
 
-import application.WorldObject.OrderedPair;
 import javafx.scene.image.Image;
 import javafx.scene.shape.Circle;
-import javafx.scene.shape.Rectangle;
 
 public class CircleCollider extends WorldObject {
 
 	public CircleCollider(double worldXPos, double worldYPos, double radius) {
+		//creates a world object with collisions
 		super(new Circle(), new OrderedPair(worldXPos, worldYPos), new OrderedPair(radius, radius), true);
-	
 		
+		//makes it invisible
 		hB.setFill(null);
 		hB.setStroke(null);
 		
+		//places an image over the object
 		Image im = new Image("black_circle.png");
 		image.setImage(im);
 		image.setFitHeight(radius*2);
